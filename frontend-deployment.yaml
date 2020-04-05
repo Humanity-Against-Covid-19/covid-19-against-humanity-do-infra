@@ -1,13 +1,13 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: test
+  name: humanity-against-covid19-frontend
   namespace: default
 spec:
   selector:
     matchLabels:
-      app: test
-  replicas: 2
+      app: humanity-against-covid19-frontend
+  replicas: 1
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -16,25 +16,25 @@ spec:
   template:
     metadata:
       labels:
-        app: test
+        app: humanity-against-covid19-frontend
     spec:
       containers:
-      - name: test
-        image: nginx:latest
+      - name: humanity-against-covid19-frontend
+        image: emalihin/humanityagainstcovid19-frontend:latest
         imagePullPolicy: Always
         resources:
           requests:
-            cpu: 100m
-            memory: 128Mi
+            cpu: 200m
+            memory: 256Mi
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: test
+  name: humanity-against-covid19-frontend
   namespace: default
 spec:
   selector:
-    app: test
+    app: humanity-against-covid19-frontend
   ports:
     - port: 80
 ---
@@ -43,7 +43,7 @@ kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: traefik
-  name: test
+  name: humanity-against-covid19-frontend
   namespace: default
 spec:
   rules:
@@ -51,6 +51,6 @@ spec:
     http:
       paths:
       - backend:
-          serviceName: test
+          serviceName: humanity-against-covid19-frontend
           servicePort: 80
         path: /
